@@ -1,6 +1,7 @@
 const mongoose=require("mongoose")
 const bcrypt=require("bcrypt")
 const userM = require("../models/user.model")
+const logger = require("../utils/logger")
 
 
 async function signUp(req,res) {
