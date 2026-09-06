@@ -32,7 +32,6 @@ async function signUp(req,res) {
 }
 
 async function signIn(req,res) {
-    logger.info(req.body)
     const {email,password}=req.body
     if(!email || !password ){
         return res.json({
@@ -58,5 +57,21 @@ async function signIn(req,res) {
     })  
 }
 
-
-module.exports={signUp,signIn}
+async function changePassword(req,res) {
+    const {id}=req.params
+    const {password}=req.body
+    logger.info(id ,password)
+    const findUser= await userM.findById(id)
+    if(!findUser){
+        return res.json({
+            error:"User Not Found",
+        })
+    }
+    const hashPassword=await bcrypt.hash(password,10)
+    const newUser=await userM.findByIdAndUpdate(id,{password:hashPassword},{new:true})
+    return res.json({
+        message:"Password Updated",
+        newUser
+    })
+}
+module.exports={signUp,signIn,changePassword}
