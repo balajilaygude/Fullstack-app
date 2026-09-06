@@ -11,8 +11,8 @@ async function signUp(req,res) {
             error:"Plase Enter all Details"
         })
     }
-    const checkUser= await userM.findOne({email})
-    if(checkUser){
+    const findUser= await userM.findOne({email})
+    if(findUser){
         return res.json({
             error:"User Exist Plase Log in",
         })
@@ -31,6 +31,32 @@ async function signUp(req,res) {
     })    
 }
 
+async function signIn(req,res) {
+    logger.info(req.body)
+    const {email,password}=req.body
+    if(!email || !password ){
+        return res.json({
+            error:"Plase Enter all Credentials"
+        })
+    }
+    const findUser= await userM.findOne({email})
+    if(!findUser){
+        return res.json({
+            error:"User Not Found",
+        })
+    }
+    const hashPassword=await bcrypt.compare(password,findUser.password)
+    if(!hashPassword){
+        return res.json({
+            error:"Wrong credentials"
+        })
+    }
+
+    res.json({
+        message:"User Sign In Successfully",
+        findUser
+    })  
+}
 
 
-module.exports={signUp}
+module.exports={signUp,signIn}
