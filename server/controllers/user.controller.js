@@ -1,12 +1,13 @@
 const mongoose=require("mongoose")
 const bcrypt=require("bcrypt")
+const jwt=require("jsonwebtoken")
 const userM = require("../models/user.model")
 const logger = require("../utils/logger")
 
 
 async function signUp(req,res) {
-    const {name,email,password}=req.body
-    if(!name || !email || !password ){
+    const {name,email,password, address}=req.body
+    if(!name || !email || !password ||!address ){
         return res.json({
             error:"Plase Enter all Details"
         })
@@ -22,12 +23,15 @@ async function signUp(req,res) {
     const newUser= await userM.create({
         name,
         email,
-        password:hashPassword
+        password:hashPassword,
+        address
     })
-
+    const token= await jwt.sign({role:newUser.role,email:newUser.email},process.env.SECRET)
+    
     res.json({
         message:"User Created Successfully",
-        newUser
+        newUser,
+        token
     })    
 }
 
@@ -50,10 +54,12 @@ async function signIn(req,res) {
             error:"Wrong credentials"
         })
     }
+    const token= await jwt.sign({role:findUser.role,email:findUser.email},process.env.SECRET)
 
     res.json({
         message:"User Sign In Successfully",
-        findUser
+        findUser,
+        token
     })  
 }
 
@@ -67,7 +73,7 @@ async function changePassword(req,res) {
         })
     }
     const hashPassword=await bcrypt.hash(password,10)
-    const newUser=await userM.findByIdAndUpdate(id,{password:hashPassword},{new:true})
+    const newUser=await userM.findByIdAndUpdate(id,{password:hashPassword},{returnDocument:true}).select("-password")
     return res.json({
         message:"Password Updated",
         newUser

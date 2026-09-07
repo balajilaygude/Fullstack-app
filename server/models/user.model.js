@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema({
     },
     password:{
         type: String,
-        required: true
+        required: true,
     },
     address:{
         type:String,
@@ -23,7 +23,7 @@ const userSchema = new mongoose.Schema({
         enum:["user","admin","owner"],
         default:"user"
     }
-});
+},{timestamps:true});
 
 const userM=mongoose.model("user",userSchema)
 module.exports=userM
