@@ -60,15 +60,18 @@ async function signIn(req,res) {
 async function changePassword(req,res) {
     const {id}=req.params
     const {password}=req.body
-    logger.info(id ,password)
+    logger.info(id )
+    logger.info(password )
     const findUser= await userM.findById(id)
     if(!findUser){
         return res.json({
             error:"User Not Found",
         })
     }
+    logger.info(findUser)
     const hashPassword=await bcrypt.hash(password,10)
     const newUser=await userM.findByIdAndUpdate(id,{password:hashPassword},{new:true})
+    logger.info(newUser)
     return res.json({
         message:"Password Updated",
         newUser
