@@ -30,7 +30,7 @@ async function signUp(req,res) {
     
     res.json({
         message:"User Created Successfully",
-        newUser,
+        user:newUser,
         token
     })    
 }
@@ -58,7 +58,7 @@ async function signIn(req,res) {
 
     res.json({
         message:"User Sign In Successfully",
-        findUser,
+        user:findUser,
         token
     })  
 }
