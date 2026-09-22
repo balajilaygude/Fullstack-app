@@ -5,6 +5,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true 
     },
+    nickname:{
+        type: String,
+        required: true 
+    },
     email:{
         type: String,
         required: true,
@@ -13,15 +17,6 @@ const userSchema = new mongoose.Schema({
     password:{
         type: String,
         required: true,
-    },
-    address:{
-        type:String,
-        required:true
-    },
-    role:{
-        type:String,
-        enum:["user","admin","owner"],
-        default:"user"
     }
 },{timestamps:true});
 
