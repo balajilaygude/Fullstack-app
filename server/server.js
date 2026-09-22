@@ -9,6 +9,7 @@ const morgan=require("morgan")
 const logger = require("./utils/logger")
 const dbconnect = require("./configs/dbconnect")
 const userRouter = require("./routes/user.route")
+
 app.use(express.json())
 app.use(morgan("dev"))
 
@@ -18,7 +19,7 @@ app.get("/",async(req,res)=>{
         server:true
     })
 })
-app.use("/api/v1/auth",userRouter)
+app.use("/api/auth",userRouter)
 
 
 app.listen(port,()=>{
