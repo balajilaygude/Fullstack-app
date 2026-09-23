@@ -6,8 +6,8 @@ const logger = require("../utils/logger")
 
 
 async function signUp(req,res) {
-    const {name,email,password, address}=req.body
-    if(!name || !email || !password ||!address ){
+    const {name,nickname,email,password}=req.body
+    if(!name || !nickname ||  !email || !password ){
         return res.json({
             error:"Plase Enter all Details"
         })
@@ -22,11 +22,11 @@ async function signUp(req,res) {
 
     const newUser= await userM.create({
         name,
+        nickname,
         email,
         password:hashPassword,
-        address
     })
-    const token= await jwt.sign({role:newUser.role,email:newUser.email},process.env.SECRET)
+    const token= await jwt.sign({email:newUser.email,},process.env.SECRET)
     
     res.json({
         message:"User Created Successfully",
@@ -73,10 +73,11 @@ async function changePassword(req,res) {
         })
     }
     const hashPassword=await bcrypt.hash(password,10)
-    const newUser=await userM.findByIdAndUpdate(id,{password:hashPassword},{returnDocument:true}).select("-password")
+    const user=await userM.findByIdAndUpdate(id,{password:hashPassword},{returnDocument:true}).select("-password")
     return res.json({
         message:"Password Updated",
-        newUser
+        user
     })
 }
+
 module.exports={signUp,signIn,changePassword}

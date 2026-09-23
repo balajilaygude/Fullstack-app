@@ -23,6 +23,6 @@ app.use("/api/auth",userRouter)
 
 
 app.listen(port,()=>{
-    logger.info("Server Started ..")
+    logger.info("Server Started ..",port)
     dbconnect()
 })
