@@ -21,7 +21,7 @@ async function getMovie(req, res) {
         error: "Connot find the movie",
       });
     }
-    if(!user===movie._id){
+    if(user!=movie.user.toString()){
         res.status(409).json({
             message:"You are not authorized for This",
             success:false
@@ -43,19 +43,26 @@ async function createMovie(req,res) {
 
             })
         }
-
+        const checkMovie= await movieM.findOne({name})
+        if(checkMovie && checkMovie?.user?.toString()==id){
+            res.status(409).json({
+                message:"Movie Review exists ",
+                success:false
+            })
+        }
         const movie=await movieM.create({
-            id,name,rating,note,watchdate,like
+            user:id,name,rating,note,watchdate,like
         })
-        res.satus(201).json({
+        res.status(201).json({
             message:" Created Successfully",
             movie,
             success:true
         })
     } catch (error) {
         logger.error("createMovie :-",error)
+        console.log(error)
     }
 }
 
 
-module.exports = { getAllMovie, getMovie };
+module.exports = { getAllMovie, getMovie ,createMovie};
