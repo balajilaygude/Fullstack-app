@@ -26,7 +26,7 @@ async function signUp(req, res) {
       email,
       password: hashPassword,
     });
-    const token = await jwt.sign({ email: newUser.email }, process.env.SECRET);
+    const token = await jwt.sign({ email: newUser.email ,id:newUser._id}, process.env.SECRET);
 
     res.json({
       message: "User Created Successfully",
@@ -59,7 +59,7 @@ async function signIn(req, res) {
       });
     }
     const token = await jwt.sign(
-      { role: findUser.role, email: findUser.email },
+      {email: findUser.email ,id:findUser._id},
       process.env.SECRET,
     );
 
@@ -69,15 +69,15 @@ async function signIn(req, res) {
       token,
     });
   } catch (error) {
-    logger.error("Sign up :-", error);
+    logger.error("Sign in :-", error);
   }
 }
 
 async function changePassword(req, res) {
   try {
-    const { id } = req.params;
+    const email = req.user.email;
     const { password } = req.body;
-    const findUser = await userM.findById(id);
+    const findUser = await userM.findOne({email});
     if (!findUser) {
       return res.json({
         error: "User Not Found",
@@ -86,7 +86,7 @@ async function changePassword(req, res) {
     const hashPassword = await bcrypt.hash(password, 10);
     const user = await userM
       .findByIdAndUpdate(
-        id,
+        findUser.id,
         { password: hashPassword },
         { returnDocument: true },
       )
@@ -96,7 +96,7 @@ async function changePassword(req, res) {
       user,
     });
   } catch (error) {
-    logger.error("Sign up :-", error);
+    logger.error("Password change :-", error);
   }
 }
 
