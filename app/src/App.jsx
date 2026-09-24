@@ -1,28 +1,82 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import Signin from "./pages/Signin";
-import Signup from "./pages/Signup";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-function App() {
-  return <>
-  
+import { AuthProvider } from "./context/AuthContext";
+
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+import ProtectedRoute from "./components/ProtectedRoute";
+
+import Home from "./pages/Home";
+import SignIn from "./pages/SignIn";
+import SignUp from "./pages/SignUp";
+import Movies from "./pages/Movies";
+import MovieDetails from "./pages/MovieDetails";
+import MyAccount from "./pages/MyAccount";
+
+export default function App() {
+  return (
     <BrowserRouter>
 
-      
+      <AuthProvider>
 
-      <Routes>
-        <Route path="/signin" element={<Signin />} />
-        <Route path="/signup" element={<Signup />} />
+        <Navbar />
 
-        <Route
-          path="*"
-          element={<Navigate to="/signin" replace />}
-        />
-      </Routes>
+        <main className="pt-24">
+
+          <Routes>
+
+            {/* Public */}
+            <Route
+              path="/"
+              element={<Home />}
+            />
+
+            <Route
+              path="/signin"
+              element={<SignIn />}
+            />
+
+            <Route
+              path="/signup"
+              element={<SignUp />}
+            />
+
+            {/* Protected */}
+            <Route
+              path="/movies"
+              element={
+                <ProtectedRoute>
+                  <Movies />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/movies/:id"
+              element={
+                <ProtectedRoute>
+                  <MovieDetails />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/account"
+              element={
+                <ProtectedRoute>
+                  <MyAccount />
+                </ProtectedRoute>
+              }
+            />
+
+          </Routes>
+
+        </main>
+
+        <Footer />
+
+      </AuthProvider>
+
     </BrowserRouter>
-  
-  
-  </>;
-
+  );
 }
-
-export default App;
