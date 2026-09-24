@@ -8,9 +8,42 @@ import {
   FiArrowRight,
   FiBookOpen,
 } from "react-icons/fi";
+import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+import api from "../services/api";
+
 
 export default function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
+  const { signup } = useAuth();
+const navigate = useNavigate();
+  const [name,setName]=useState("")
+  const [email,setEmail]=useState("")
+  const [password,setPassword]=useState("")
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  const nickname="Movie Nut"
+  try {
+    if(!name || !nickname ||!email || !password){
+      alert("plase enter all details .....")
+      return
+    }
+    console.log(name , nickname , email , password)
+    const response = await api.post("/auth/signup", {
+      name,
+      nickname,
+      email,
+      password,
+    });
+
+    signup(response.data);
+
+    navigate("/movies");
+
+  } catch (error) {
+    console.error(error);
+  }
+};
 
   return (
     <div className="min-h-screen bg-[#f4efe3] flex items-center justify-center px-4 py-10">
@@ -52,7 +85,7 @@ export default function SignUp() {
               </p>
             </div>
 
-            <form className="space-y-4">
+            <form className="space-y-4" onSubmit={handleSubmit}>
 
               {/* Name */}
               <div>
@@ -68,7 +101,9 @@ export default function SignUp() {
 
                   <input
                     type="text"
-                    placeholder="Alex"
+                    value={name}
+                    onChange={(e)=>setName(e.target.value)}
+                    placeholder="Ram"
                     className="w-full h-12 pl-11 pr-4 rounded-lg bg-[#faf7ee] border border-[#d9cfbb] outline-none text-[#40382d] placeholder:text-[#aaa08f] focus:border-[#8f7b5d] transition"
                   />
                 </div>
@@ -88,6 +123,8 @@ export default function SignUp() {
 
                   <input
                     type="email"
+                    value={email}
+                    onChange={(e)=>setEmail(e.target.value)}
                     placeholder="your@email.com"
                     className="w-full h-12 pl-11 pr-4 rounded-lg bg-[#faf7ee] border border-[#d9cfbb] outline-none text-[#40382d] placeholder:text-[#aaa08f] focus:border-[#8f7b5d] transition"
                   />
@@ -108,6 +145,8 @@ export default function SignUp() {
 
                   <input
                     type={showPassword ? "text" : "password"}
+                    value={password}
+                    onChange={(e)=>setPassword(e.target.value)}
                     placeholder="Create a password"
                     className="w-full h-12 pl-11 pr-12 rounded-lg bg-[#faf7ee] border border-[#d9cfbb] outline-none text-[#40382d] placeholder:text-[#aaa08f] focus:border-[#8f7b5d] transition"
                   />
@@ -123,7 +162,7 @@ export default function SignUp() {
               </div>
 
               {/* Terms */}
-              <label className="flex items-start gap-2 text-xs text-[#817766] leading-5 cursor-pointer">
+              {/* <label className="flex items-start gap-2 text-xs text-[#817766] leading-5 cursor-pointer">
                 <input
                   type="checkbox"
                   className="mt-1 accent-[#76644c]"
@@ -140,12 +179,12 @@ export default function SignUp() {
                   </a>
                   .
                 </span>
-              </label>
+              </label> */}
 
               {/* Button */}
               <button
                 type="submit"
-                className="w-full h-12 rounded-lg bg-[#5f513e] text-white flex items-center justify-center gap-2 font-medium hover:bg-[#493e30] transition shadow-md"
+                className="w-full h-12 rounded-lg bg-[#5f513e] text-white flex items-center justify-center gap-2 font-medium hover:bg-[#493e30] hover:scale-105 duration-150 mt-6 transition shadow-md"
               >
                 Create Account
                 <FiArrowRight size={18} />
