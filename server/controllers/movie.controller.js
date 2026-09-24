@@ -17,17 +17,19 @@ async function getMovie(req, res) {
     const user=req.user.id
     const movie = await movieM.findById(id);
     if (!movie) {
-      res.status(404).json({
-        error: "Connot find the movie",
-      });
-    }
-    if(user!=movie.user.toString()){
-        res.status(409).json({
-            message:"You are not authorized for This",
-            success:false
-        })
-    }
-    res.status(200).json(movie);
+  return res.status(404).json({
+    error: "Cannot find the movie",
+  });
+}
+
+if (user !== movie.user.toString()) {
+  return res.status(403).json({
+    message: "You are not authorized for this",
+    success: false,
+  });
+}
+
+return res.status(200).json(movie) ;
   } catch (error) {
     logger.error("getMovies :-", error);
   }
@@ -38,14 +40,14 @@ async function createMovie(req,res) {
         const{name,rating,note,watchdate,like}=req.body
         const {id}=req.user
         if(!name || !note || !rating || !watchdate || !like || !id){
-            res.status(409).json({
+            return res.status(409).json({
                 error:"Plase Enter all Values"
 
             })
         }
         const checkMovie= await movieM.findOne({name})
         if(checkMovie && checkMovie?.user?.toString()==id){
-            res.status(409).json({
+            return res.status(409).json({
                 message:"Movie Review exists ",
                 success:false
             })

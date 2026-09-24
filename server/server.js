@@ -12,6 +12,7 @@ const userRouter = require("./routes/user.route")
 const movieRouter = require("./routes/movie.route")
 
 app.use(express.json())
+app.use(cors())
 app.use(morgan("dev"))
 
 app.get("/",async(req,res)=>{
