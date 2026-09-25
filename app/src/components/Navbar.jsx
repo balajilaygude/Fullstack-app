@@ -21,8 +21,10 @@ export default function Navbar() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 px-4 md:px-8 pt-4">
+      
       <nav className="max-w-7xl mx-auto backdrop-blur-md bg-transparent border border-[#d8ccb5] shadow-[0_5px_20px_rgba(80,65,45,0.12)] rounded-2xl">
         <div className="h-16 px-5 md:px-7 flex items-center justify-between">
+          
 
           <Link
             to="/"

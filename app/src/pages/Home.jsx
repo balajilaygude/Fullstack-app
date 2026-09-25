@@ -26,7 +26,7 @@ export default function Home() {
         {/* Red margin */}
         <div className="absolute left-10 md:left-24 top-0 bottom-0 border-l border-red-300/50" />
 
-        <div className="relative max-w-7xl mx-auto px-6 md:px-12 lg:py-32 grid lg:grid-cols-2 gap-16 items-center">
+        <div className="relative max-w-7xl mx-auto px-6 md:px-12 py-32 grid lg:grid-cols-2 gap-16 items-center">
 
           <div>
 
