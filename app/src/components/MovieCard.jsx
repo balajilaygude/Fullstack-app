@@ -6,33 +6,13 @@ import {
   FiArrowUpRight,
   FiFilm,
 } from "react-icons/fi";
+import api from "../services/api";
 
-export default function MovieCard({ movie, onDelete }) {
+export default function MovieCard({ movie}) {
 
-  const handleDelete = async (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    const confirmed = window.confirm(
-      `Delete "${movie.name}" from your diary?`
-    );
-
-    if (!confirmed) return;
-
-    /*
-      DELETE API will be added later.
-
-      Example:
-
-      await api.delete(`/movie/${movie._id}`);
-
-    */
-
-    onDelete(movie._id);
-  };
 
   return (
-    <div className="group relative">
+    <div className="group relative ">
 
       {/* Paper */}
       <div className="bg-[#fffdf5] border border-[#ddd3bf] rounded-2xl p-6 shadow-[4px_6px_15px_rgba(80,65,45,0.08)] hover:-translate-y-1 transition">
@@ -103,14 +83,6 @@ export default function MovieCard({ movie, onDelete }) {
             View movie
             <FiArrowUpRight />
           </Link>
-
-          <button
-            onClick={handleDelete}
-            className="text-[#9b7069] hover:text-red-600 transition"
-            title="Delete movie"
-          >
-            <FiTrash2 size={17} />
-          </button>
 
         </div>
 

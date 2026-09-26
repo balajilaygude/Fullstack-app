@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams ,useNavigate } from "react-router-dom";
 import {
   FiArrowLeft,
   FiCalendar,
@@ -12,9 +12,29 @@ import api from "../services/api";
 
 export default function MovieDetails() {
   const { id } = useParams();
+  const navigate=useNavigate()
 
   const [movie, setMovie] = useState(null);
   const [loading, setLoading] = useState(true);
+
+   const handleDelete = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const confirmed = window.confirm(
+      `Delete "${movie.name}" from your diary?`
+    );
+
+    if (!confirmed) return;
+    try {
+      
+      const res=await api.delete(`movie/${id}`)
+      navigate("/movies")
+      
+    } catch (error) {
+      console.log(error)
+    }
+  };
 
   useEffect(() => {
     const getMovie = async () => {
@@ -44,13 +64,14 @@ export default function MovieDetails() {
   if (!movie) {
     return (
       <div className="min-h-screen bg-[#f4efe3] flex items-center justify-center">
+        
         Movie not found.
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#f4efe3] py-12 px-6">
+    <div className="min-h-screen bg-[#f4efe3] md:py-12 py-6 px-6">
 
       <div className="max-w-5xl mx-auto">
 
@@ -62,7 +83,7 @@ export default function MovieDetails() {
           Back to my movies
         </Link>
 
-        <div className="relative bg-[#fffdf5] border border-[#ddd3bf] shadow-[8px_12px_30px_rgba(80,65,45,0.12)] mt-8 rounded-sm overflow-hidden">
+        <div className="relative bg-[#fffdf5] border border-[#ddd3bf] shadow-[8px_12px_30px_rgba(80,65,45,0.12)] md:mt-8 mt-3 rounded-sm overflow-hidden">
 
           {/* Notebook margin */}
           <div className="absolute top-0 bottom-0 left-12 border-l border-red-300/50" />
@@ -81,9 +102,9 @@ export default function MovieDetails() {
             <div className="flex flex-col md:flex-row gap-10">
 
               {/* Icon / poster placeholder */}
-              <div className="shrink-0">
+              {/* <div className="shrink-0 hidden md:block">
 
-                <div className="w-48 h-64 bg-[#40382d] rounded-xl flex items-center justify-center text-[#e8dfcf] shadow-lg">
+                <div className="hidden md:block w-48 h-64  bg-[#40382d] rounded-xl flex items-center justify-center text-[#e8dfcf] shadow-lg">
 
                   <div className="text-center">
                     <FiFilm
@@ -98,20 +119,16 @@ export default function MovieDetails() {
 
                 </div>
 
-              </div>
+              </div> */}
 
               {/* Information */}
               <div className="flex-1">
 
-                <p className="text-sm text-[#a9473d] uppercase tracking-widest font-semibold">
-                  Movie diary entry
-                </p>
-
-                <h1 className="text-5xl font-black mt-3 text-[#40382d]">
+                <h1 className="md:text-5xl text-3xl font-black mt-3 text-[#40382d]">
                   {movie.name}
                 </h1>
 
-                <div className="flex items-center gap-1 mt-5 text-[#b38336]">
+                {/* <div className="flex items-center gap-1 md:mt-5 mt-2 text-[#b38336]">
 
                   {[1, 2, 3, 4, 5].map((star) => (
                     <FiStar
@@ -127,9 +144,9 @@ export default function MovieDetails() {
 
                   <span className="ml-2 text-[#716655]">
                     {movie.rating}/5
-                  </span>
+                  </span> */}
 
-                </div>
+                {/* </div> */}
 
                 <div className="flex items-center gap-2 mt-6 text-[#756957]">
                   <FiCalendar />
@@ -162,7 +179,7 @@ export default function MovieDetails() {
                 My thoughts
               </p>
 
-              <blockquote className="mt-4 text-2xl md:text-3xl font-medium leading-relaxed text-[#504536]">
+              <blockquote className="mt-4 text-xl md:text-3xl font-medium leading-relaxed text-[#504536]">
                 "{movie.note}"
               </blockquote>
 
@@ -173,10 +190,7 @@ export default function MovieDetails() {
 
               <button
                 className="text-sm text-red-700 flex items-center gap-2 hover:text-red-900"
-                onClick={() => {
-                  // Add DELETE API later
-                  alert("Delete API will be connected here.");
-                }}
+                onClick={handleDelete}
               >
                 <FiTrash2 />
                 Delete this diary entry

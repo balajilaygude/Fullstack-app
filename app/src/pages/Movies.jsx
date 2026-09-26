@@ -5,19 +5,46 @@ import {
   FiFilm,
   FiSearch,
 } from "react-icons/fi";
-
+import { FcLike } from "react-icons/fc";
+import { SlCalender } from "react-icons/sl";
+import { MdOutlineLocalMovies } from "react-icons/md";
 import api from "../services/api";
 import MovieCard from "../components/MovieCard";
 
 export default function Movies() {
   const [movies, setMovies] = useState([]);
   const [search, setSearch] = useState("");
+  const [showForm,setShowForm]=useState(false)
   const [loading, setLoading] = useState(true);
+  const [name,setName]=useState("")
+  const [rating,setRating]=useState(1)
+  const [watchdate,setWatchDate]=useState("2026-09-28")
+  const [like,setLike]=useState("Good")
+  const [note,setNote]=useState("")
+
+  async function handleSubmit(e) {
+    e.preventDefault()
+    if(!name ||!rating ||!note ||!watchdate ||!like){
+      alert("Plase enter all details")
+      return;
+    }
+    try {
+      const result=await api.post(`/movie`,{name,rating,note,watchdate,like})
+      setName("")
+      setRating(1)
+      setWatchDate("2026-09-28")
+      setNote("")
+      setLike("Good")
+      getMovies()
+    } catch (error) {
+      console.log(error)
+    }
+    
+  }
 
   const getMovies = async () => {
     try {
       const response = await api.get("/movie");
-      console.log(response)
       setMovies(response.data);
     } catch (error) {
       console.error(error);
@@ -56,15 +83,114 @@ export default function Movies() {
             </p>
           </div>
 
-          <Link
-            to="/movies/add"
+          <button
+            onClick={()=>setShowForm(!showForm)}
             className="self-start md:self-auto bg-[#40382d] text-white px-5 py-3 rounded-xl flex items-center gap-2"
           >
             <FiPlus />
             Add Movie
-          </Link>
+          </button>
 
         </div>
+        {showForm && 
+        <div className="bg-[#fffdf5] border border-[#ded4c1] rounded-2xl md:p-16 p-5 mt-10">
+
+          <form onSubmit={handleSubmit}>
+           <div>
+                <label className="block text-sm font-medium text-[#5e5447] mb-2">
+                  Movie Name
+                </label>
+
+                <div className="relative">
+                  <MdOutlineLocalMovies
+                    className="absolute left-4 top-1/2 -translate-y-1/2 text-[#a29480]"
+                    size={18}
+                  />
+
+                  <input
+                    type="name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Bahubali"
+                    className="w-full h-12 pl-11 pr-4 rounded-lg bg-[#faf7ee] border border-[#d9cfbb] outline-none text-[#40382d] placeholder:text-[#aaa08f] focus:border-[#8f7b5d] transition"
+                  />
+                </div>
+              </div>
+           <div>
+                <label className="block text-sm mt-2 font-medium text-[#5e5447]">
+                  Rating
+                </label>
+
+                <div className="relative">
+
+                  <input
+                    type="range"
+                    max="5" min="1"
+                    value={rating}
+                    onChange={(e) => setRating(e.target.value)}
+                    className="w-full h-5 pl-11 pr-4 rounded-lg bg-[#faf7ee] border border-[#d9cfbb] outline-none text-[#40382d] placeholder:text-[#aaa08f] focus:border-[#8f7b5d] transition"
+                  />
+                </div>
+              </div>
+           <div>
+                <label className="block text-sm font-medium text-[#5e5447] mb-2">
+                  Watch Date
+                </label>
+
+                <div className="relative">
+                  <SlCalender
+                    className="absolute left-4 top-1/2 -translate-y-1/2 text-[#a29480]"
+                    size={18}
+                  />
+
+                  <input
+                    type="date"
+                    value={watchdate}
+                    onChange={(e) => setWatchDate(e.target.value)}
+                    className="w-full h-12 pl-11 pr-4 rounded-lg bg-[#faf7ee] border border-[#d9cfbb] outline-none text-[#40382d] placeholder:text-[#aaa08f] focus:border-[#8f7b5d] transition"
+                  />
+                </div>
+              </div>
+           <div>
+                <label className="block text-sm font-medium text-[#5e5447] mb-2">
+                  Like
+                </label>
+
+                <div className="relative">
+                  <FcLike
+                    className="absolute left-4 top-1/2 -translate-y-1/2 text-[#a29480]"
+                    size={18}
+                  />
+
+                  <select         value={like} 
+        onChange={(e)=>setLike(e.target.value)}
+        className="w-full h-12 pl-11 pr-5 rounded-lg bg-[#faf7ee] border border-[#d9cfbb] outline-none text-[#40382d] placeholder:text-[#aaa08f] focus:border-[#8f7b5d] transition">
+                    <option value="Good">Good</option>
+                    <option value="Must Watch">Must Watch</option>
+                    <option value="Rewatch">Rewatch</option>
+                  </select>
+
+                </div>
+              </div>
+           <div>
+                <label className="block text-sm font-medium text-[#5e5447] mb-2">
+                  Note
+                </label>
+
+                <div className="relative">
+
+                  <textarea rows={5} cols={5}
+                    value={note}
+                    onChange={(e) => setNote(e.target.value)}
+                    placeholder="write Note"
+                    className="w-full resize-y p-2 md:p-5 rounded-lg bg-[#faf7ee] border border-[#d9cfbb] outline-none text-[#40382d] placeholder:text-[#aaa08f] focus:border-[#8f7b5d] transition"
+                  />
+                </div>
+              </div>
+
+            <button type="submit" className="w-full h-12 rounded-lg bg-[#5f513e] text-white flex items-center justify-center gap-2 font-medium hover:bg-[#493e30] hover:scale-105 duration-150 transition shadow-md">Submit</button>
+          </form>
+        </div>}
 
         {/* Search */}
         <div className="relative max-w-md mt-10">
@@ -112,11 +238,6 @@ export default function Movies() {
               <MovieCard
                 key={movie._id}
                 movie={movie}
-                onDelete={(id) => {
-                  setMovies((prev) =>
-                    prev.filter((movie) => movie._id !== id)
-                  );
-                }}
               />
             ))}
 
