@@ -28,7 +28,6 @@ const handleSubmit = async (e) => {
       alert("plase enter all details .....")
       return
     }
-    console.log(name , nickname , email , password)
     const response = await api.post("/auth/signup", {
       name,
       nickname,

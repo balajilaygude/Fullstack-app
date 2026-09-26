@@ -27,7 +27,6 @@ export default function SignIn() {
         alert("plase enter all details .....");
         return;
       }
-      console.log(email, password);
       const response = await api.post("/auth/signin", {
         email,
         password,
