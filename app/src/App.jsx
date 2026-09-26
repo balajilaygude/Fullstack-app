@@ -1,6 +1,6 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
-import { AuthProvider } from "./context/AuthContext";
+import { AuthProvider, useAuth } from "./context/AuthContext";
 
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -14,6 +14,8 @@ import MovieDetails from "./pages/MovieDetails";
 import MyAccount from "./pages/MyAccount";
 
 export default function App() {
+  const {user}=useAuth
+
   return (
     <BrowserRouter>
 
@@ -31,15 +33,15 @@ export default function App() {
               element={<Home />}
             />
 
-            <Route
-              path="/signin"
-              element={<SignIn />}
-            />
+<Route
+  path="/signin"
+  element={user ? <Navigate to="/movies" /> : <SignIn />}
+/>
 
-            <Route
-              path="/signup"
-              element={<SignUp />}
-            />
+<Route
+  path="/signup"
+  element={user ? <Navigate to="/movies" /> : <SignUp />}
+/>
 
             {/* Protected */}
             <Route

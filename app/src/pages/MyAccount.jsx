@@ -5,12 +5,19 @@ import {
   FiAtSign,
   FiLock,
   FiCheck,
+  FiLogOut
 } from "react-icons/fi";
-
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 export default function MyAccount() {
-  const { user, changePassword } = useAuth();
+  const { user, changePassword, logout  } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
 
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
@@ -54,6 +61,8 @@ export default function MyAccount() {
             My Account
           </h1>
         </div>
+
+
 
         <div className="grid md:grid-cols-2 gap-7">
 
@@ -146,6 +155,16 @@ export default function MyAccount() {
 
           </div>
 
+        </div>
+        <div className="bg-[#fffdf5] border border-[#ddd3bf] rounded-2xl my-5 p-8 shadow-[4px_6px_15px_rgba(80,65,45,0.07)]">
+        <p>See You Soon Your Movies are here ....</p>
+        <button
+                onClick={handleLogout}
+                className="flex items-center gap-2 px-4 py-2.5 my-5 rounded-xl bg-red-500 max-h-10 text-sm text-[##eee7d8] hover:bg-red-300"
+                >
+                <FiLogOut />
+                Logout
+              </button>
         </div>
 
       </div>

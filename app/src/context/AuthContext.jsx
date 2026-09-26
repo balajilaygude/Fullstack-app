@@ -18,7 +18,6 @@ export function AuthProvider({ children }) {
   }, []);
 
   const login = (data) => {
-    console.log(data)
     localStorage.setItem("token", data.token);
     localStorage.setItem("user", JSON.stringify(data.user));
     
@@ -26,7 +25,6 @@ export function AuthProvider({ children }) {
   };
   
   const signup = (data) => {
-    console.log(data)
     localStorage.setItem("token", data.token);
     localStorage.setItem("user", JSON.stringify(data.user));
 
