@@ -5,7 +5,6 @@ import {
   FiUser,
   FiLogIn,
   FiUserPlus,
-  FiLogOut,
 } from "react-icons/fi";
 import { BiSolidCameraMovie } from "react-icons/bi";
 import { useAuth } from "../context/AuthContext";
@@ -23,7 +22,7 @@ export default function Navbar() {
     <header className="fixed top-0 left-0 right-0 z-50 px-4 md:px-8 pt-4">
       
       <nav className="max-w-7xl mx-auto backdrop-blur-md bg-transparent border border-[#d8ccb5] shadow-[0_5px_20px_rgba(80,65,45,0.12)] rounded-2xl">
-        <div className="h-16 px-5 md:px-7 flex items-center justify-between">
+        <div className="h-16 sm:px-5 px-2 md:px-7 flex items-center justify-between">
           
 
           <Link
@@ -45,39 +44,6 @@ export default function Navbar() {
             </div>
           </Link>
 
-          {/* Navigation */}
-          <div className="hidden md:flex items-center gap-7">
-
-            <Link
-              to="/"
-              className="flex items-center gap-2 text-sm text-[#756957] hover:text-amber-900 hover:scale-110 duration-150"
-            >
-              <FiHome />
-              Home
-            </Link>
-
-            {user && (
-              <Link
-                to="/movies"
-                className="flex items-center gap-2 text-sm text-[#756957] hover:text-amber-900 hover:scale-110 duration-150"
-              >
-                <FiBookOpen />
-                My Movies
-              </Link>
-            )}
-
-            {user && (
-              <Link
-                to="/account"
-                className="flex items-center gap-2 text-sm text-[#756957] hover:text-amber-900 hover:scale-110 duration-150"
-              >
-                <FiUser />
-                My Account
-              </Link>
-            )}
-
-          </div>
-
           {/* Right */}
           <div className="flex items-center gap-2">
 
@@ -85,28 +51,37 @@ export default function Navbar() {
               <>
                 <Link
                   to="/signin"
-                  className="hidden sm:flex items-center gap-2 px-4 py-2 text-sm text-[#665a49] hover:text-amber-900 hover:scale-110  duration-150"
+                  className="flex items-center px-4 py-2 text-sm text-[#665a49] hover:text-amber-900 hover:scale-110  duration-150"
                 >
-                  <FiLogIn />
                   Sign In
                 </Link>
 
                 <Link
                   to="/signup"
-                  className="flex items-center gap-2 bg-[#40382d] text-white px-4 py-2.5 rounded-xl text-sm hover:bg-[#574b3c] transition"
+                  className="flex items-center gap-1 bg-[#40382d] text-white sm:px-4 px-2 py-2.5 rounded-xl text-sm hover:bg-[#574b3c] transition"
                 >
                   <FiUserPlus />
                   Sign Up
                 </Link>
               </>
             ) : (
-              <button
-                onClick={handleLogout}
-                className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm text-[#756957] hover:bg-[#eee7d8]"
+              <>
+              <Link
+                to="/movies"
+                className="flex items-center gap-1 text-sm text-[#756957] hover:text-amber-900 hover:scale-110 duration-150"
               >
-                <FiLogOut />
-                Logout
-              </button>
+                Movies
+              </Link>
+
+              <Link
+                to="/account"
+                className="flex items-center gap-1 text-sm text-[#756957] hover:text-amber-900 hover:scale-110 duration-150"
+              >
+                
+                 {user.name.split(" ")[0]}
+              </Link>
+              
+              </>
             )}
 
           </div>

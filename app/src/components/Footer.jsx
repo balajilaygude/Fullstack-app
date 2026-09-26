@@ -62,6 +62,7 @@ export default function Footer() {
               Your movies. Your ratings.
               Your memories.
             </p>
+            <p className="text-sm text-[#bdb19e] leading-6">Admin email : balajiwork05@gmail.com</p>
           </div>
 
         </div>

@@ -6,10 +6,12 @@ import {
   FiBookOpen,
   FiArrowRight,
 } from "react-icons/fi";
+import { useAuth } from "../context/AuthContext";
 
 export default function Home() {
+  const {user}=useAuth()
   return (
-    <div className="bg-[#f4efe3] min-h-screen text-[#40382d]">
+    <div className="bg-[#f4efe3] text-[#40382d]">
 
       {/* Hero */}
       <section className="relative min-h-[650px] flex items-center overflow-hidden">
@@ -26,7 +28,7 @@ export default function Home() {
         {/* Red margin */}
         <div className="absolute left-10 md:left-24 top-0 bottom-0 border-l border-red-300/50" />
 
-        <div className="relative max-w-7xl mx-auto px-6 md:px-12 py-32 grid lg:grid-cols-2 gap-16 items-center">
+        <div className="relative max-w-7xl mx-auto sm:px-16 px-6 pt-16 pb-4 md:py-32 grid lg:grid-cols-2 gap-16 items-center">
 
           <div>
 
@@ -49,7 +51,8 @@ export default function Home() {
             </p>
 
             <div className="flex flex-wrap gap-4 mt-8">
-
+            {!user &&
+            <>
               <Link
                 to="/signup"
                 className="bg-[#40382d] text-white px-6 py-3.5 rounded-xl flex items-center gap-2 hover:bg-[#574b3c] transition"
@@ -64,13 +67,14 @@ export default function Home() {
               >
                 I already have an account
               </Link>
-
+              </>
+}
             </div>
 
           </div>
 
           {/* Diary illustration */}
-          <div className="hidden lg:block">
+          <div className="">
 
             <div className="relative rotate-3">
 
@@ -183,7 +187,7 @@ export default function Home() {
           <p className="text-white/60 mt-4">
             Because some movies deserve to be remembered.
           </p>
-
+        {!user?
           <Link
             to="/signup"
             className="inline-flex items-center gap-2 mt-8 bg-[#e7dcc7] text-[#40382d] px-7 py-3.5 rounded-xl font-semibold"
@@ -191,6 +195,14 @@ export default function Home() {
             Create your diary
             <FiArrowRight />
           </Link>
+          :
+                    <Link
+            to="/movies"
+            className="inline-flex items-center gap-2 mt-8 bg-[#e7dcc7] text-[#40382d] px-7 py-3.5 rounded-xl font-semibold"
+          >
+            Add your Movie List
+            <FiArrowRight />
+          </Link>}
 
         </div>
 
