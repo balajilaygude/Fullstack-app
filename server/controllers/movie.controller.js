@@ -36,6 +36,7 @@ return res.status(200).json(movie) ;
 }
 
 async function createMovie(req,res) {
+  console.log(req.body)
     try {
         const{name,rating,note,watchdate,like}=req.body
         const {id}=req.user
@@ -66,5 +67,35 @@ async function createMovie(req,res) {
     }
 }
 
+async function deleteMovie(req, res) {
+  const user=req.user.id
+  const { id } = req.params;
+  console.log(id ,user)
+  try {
+    const movie = await movieM.findById(id);
+    if (!movie) {
+  return res.status(404).json({
+    error: "Cannot find the movie",
+  });
+}
 
-module.exports = { getAllMovie, getMovie ,createMovie};
+if (user !== movie.user.toString()) {
+  return res.status(403).json({
+    message: "You are not authorized for this",
+    success: false,
+  });
+}
+
+const del=await movieM.findByIdAndDelete(id)
+
+return res.status(200).json({
+  success :true,
+  message:"movie Deleted Successfully",
+  del
+}) ;
+  } catch (error) {
+    logger.error("Deletemovie :-", error);
+  }
+}
+
+module.exports = { getAllMovie, getMovie ,createMovie,deleteMovie};
