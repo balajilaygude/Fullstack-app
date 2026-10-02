@@ -32,7 +32,7 @@ export default function Home() {
 
           <div>
 
-            <div className="inline-flex items-center gap-2 bg-[#e6ddcc] px-4 py-2 rounded-full text-xs font-semibold text-[#71624e] mb-6">
+            <div className="inline-flex animate-bounce items-center gap-2 bg-[#e6ddcc] px-4 py-2 rounded-full text-xs font-semibold text-[#71624e] mb-6">
               <FiFilm />
               YOUR PERSONAL MOVIE DIARY
             </div>
@@ -91,7 +91,7 @@ export default function Home() {
                 <div className="h-px bg-[#d7cdbb] my-6" />
 
                 <h3 className="text-2xl font-bold">
-                  Interstellar
+                  The Love Hypothesis
                 </h3>
 
                 <div className="flex gap-1 mt-3 text-[#b48435]">
