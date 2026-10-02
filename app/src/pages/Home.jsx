@@ -81,7 +81,7 @@ export default function Home() {
               <div className="bg-[#fffdf5] p-8 rounded-sm shadow-[15px_20px_40px_rgba(70,55,35,0.2)] border border-[#ddd3bf]">
 
                 <p className="text-sm text-[#9c8d77]">
-                  Friday, September 24
+                  Friday, October 2nd
                 </p>
 
                 <h2 className="text-3xl font-bold mt-5">
