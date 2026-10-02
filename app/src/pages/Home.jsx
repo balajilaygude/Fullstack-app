@@ -107,7 +107,7 @@ export default function Home() {
                 </p>
 
                 <div className="mt-8 text-xs text-[#9c8d77]">
-                  
+                  #Rom-Com &nbsp; #mustwatch
                 </div>
 
               </div>
