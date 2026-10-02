@@ -103,12 +103,11 @@ export default function Home() {
                 </div>
 
                 <p className="mt-6 text-[#716655] leading-7">
-                  "Still one of the most beautiful movies
-                  I've ever watched..."
+                  "Still one of the most charming comfort watches you'll ever experience, with chemistry that hits just right."
                 </p>
 
                 <div className="mt-8 text-xs text-[#9c8d77]">
-                  #sci-fi &nbsp; #rewatch
+                  
                 </div>
 
               </div>
