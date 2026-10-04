@@ -138,7 +138,7 @@ export default function Home() {
 
           <p className="mt-5 text-[#776b5b]">
             No complicated tracking. Just record the movies
-            you watch and keep your thoughts forever.
+            
           </p>
         </div>
 
