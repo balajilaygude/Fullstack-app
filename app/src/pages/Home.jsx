@@ -221,7 +221,7 @@ function Feature({ icon, number, title, text }) {
         </div>
 
         <span className="text-xs text-[#aa9d88]">
-          {number}
+          
         </span>
       </div>
 
